@@ -1,0 +1,33 @@
+.Horario {
+    padding: 0 25px 0 25px;
+    margin-bottom: 23px;
+}
+
+.Horario h1{
+    font-size: 18px;
+    font-weight: 400;
+    color: var(--cor-azul-marinho);
+    margin-bottom: 22px;
+}
+
+.Horario div{
+    display: flex;
+    flex-wrap: wrap;
+    /* justify-content: space-around; */
+}
+
+.Horario button{
+    width: 83px;
+    height: 43px;
+
+    border-radius: 3px;
+    border: none;
+    outline: none;
+
+    font-size: 18px;
+    color: #FFFFFF;
+
+    background-color: var(--cor-laranja);
+    margin-bottom: 5px;
+    margin-right: 8px;
+}

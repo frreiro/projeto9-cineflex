@@ -1,0 +1,14 @@
+.App{
+    width: 100vw;
+    height: 67px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--cor-cinza-header);
+}
+
+.App h1{
+    font-size: 34px;
+    font-weight: 400;
+    color: var(--cor-laranja); 
+}
