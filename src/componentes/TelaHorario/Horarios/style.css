@@ -1,3 +1,8 @@
+.Horarios {
+    margin-top: 67px;
+}
+
+
 .Horarios header {
     width: 100vw;
     height: 110px;
@@ -8,7 +13,13 @@
     justify-content: center;
     align-items: center;
     position: relative;
+
 }
+
+.Horarios main{
+    margin-bottom: 117px;
+}
+
 
 .Horarios footer {
     width: 100vw;

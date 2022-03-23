@@ -11,8 +11,9 @@ export default function App() {
         <header className="App">
             <h1>CINEFLEX</h1>
         </header>
-        <Filmes/>
+        {/* <Filmes/> */}
         {/* <Horarios/> */}
+        
         </>
     )
 }

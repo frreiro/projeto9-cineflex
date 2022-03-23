@@ -8,11 +8,13 @@ export default function Horarios() {
     return (
         <div className="Horarios">
             <header>Selecione os horários</header>
-            <Horario titulo="Quinta-feira - 24/06/2021"/>
-            <Horario titulo="Sexta-feira - 25/06/2021"/>
+            <main>
+                <Horario titulo="Quinta-feira - 24/06/2021" />
+                <Horario titulo="Sexta-feira - 25/06/2021" />
+            </main>
             <footer>
                 <div>
-                    <img src={Banner1}/>
+                    <img src={Banner1} />
                 </div>
                 <h1>Enola Holmes</h1>
             </footer>
