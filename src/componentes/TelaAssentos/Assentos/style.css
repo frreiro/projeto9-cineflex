@@ -1,0 +1,22 @@
+.Assentos {
+    margin-top: 67px;
+}
+
+.Assentos header{
+    width: 100vw;
+    height: 110px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    font-size: 24px;
+    font-weight: 400;
+    color: var(--cor-azul-marinho);
+}
+
+.Assentos main{
+    padding: 0 24px 0 24px;
+    display: flex;
+    flex-wrap: wrap;
+}
+
