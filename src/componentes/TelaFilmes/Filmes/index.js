@@ -27,7 +27,7 @@ export default function Filmes() {
                 {filmes.map((filme, indice) => {
                     const { id, posterURL } = filme
                     return (
-                        <Link to="/filme">
+                        <Link to={`/filme/${id}`}>
                             <Filme key={id + indice} banner={posterURL} />
                         </Link>
                     )
