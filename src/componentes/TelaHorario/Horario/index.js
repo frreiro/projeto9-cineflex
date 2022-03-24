@@ -9,7 +9,8 @@ export default function Horario({ titulo, botoes }) {
                 {botoes.map((botao) => {
                     const { name, id } = botao
                     return (
-                        <Link to={`sessao/${id}`} >
+                        // possivel erro aqui
+                        <Link key={id+name} to={`/sessao/${id}`} > 
                             <button>{name}</button>
                         </Link>
                     )

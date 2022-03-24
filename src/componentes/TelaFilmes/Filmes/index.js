@@ -27,8 +27,8 @@ export default function Filmes() {
                 {filmes.map((filme, indice) => {
                     const { id, posterURL } = filme
                     return (
-                        <Link to={`/filme/${id}`}>
-                            <Filme key={id + indice} banner={posterURL} />
+                        <Link  key={id+indice} to={`/filme/${id}`}>
+                            <Filme banner={posterURL}/>
                         </Link>
                     )
                 })}
@@ -37,7 +37,7 @@ export default function Filmes() {
 
     const carregando =
         <div className="Carregando">
-            <img src="https://c.tenor.com/I6kN-6X7nhAAAAAi/loading-buffering.gif"/>
+            <img src="https://c.tenor.com/I6kN-6X7nhAAAAAi/loading-buffering.gif" alt="Carregado"/>
         </div>
 
     return filmes.length > 1 ? listaFilmes : carregando;
