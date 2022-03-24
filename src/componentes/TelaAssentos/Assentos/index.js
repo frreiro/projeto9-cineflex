@@ -11,6 +11,12 @@ import "./style.css"
 export default function Assentos() {
 
     const [sessao, setSessao] = useState({})
+    const [assentosEscolhidos, setAssentosEscolhidos] = useState({
+        ids: [],
+        name:"",
+        cpf:""
+    });
+    console.log(assentosEscolhidos)
 
     const { sessaoId } = useParams();
 
@@ -18,16 +24,28 @@ export default function Assentos() {
         axios.get(`https://mock-api.driven.com.br/api/v5/cineflex/showtimes/${sessaoId}/seats`)
             .then((resposta) => {
                 const { data } = resposta
-                // console.log(data)
                 setSessao(data)
             })
     }, [])
 
 
+    function reservarAssento(){
+        const nomeComprador = document.querySelector(".comprador-nome").value;
+        const cpfComprador = document.querySelector(".comprador-cpf").value;
+        if(nomeComprador.length < 3) alert ("Insira um nome válido")
+        if(cpfComprador.length !== 11) alert ("Insira um cpf válido com 11 números")
+        setAssentosEscolhidos({...assentosEscolhidos, name:nomeComprador, cpf:cpfComprador});
+    }
+
+
+
+
+
     function renderizarAssentos() {
         const { name: hora, day: dia, seats: poltronas, movie: filme } = sessao;
-        const {title: titulo, posterURL: poster} = filme;
-        const {weekday: diaDaSemana} = dia;
+        const { title: titulo, posterURL: poster } = filme;
+        const { weekday: diaDaSemana } = dia;
+        
 
         return (
             <div className="Assentos">
@@ -35,7 +53,16 @@ export default function Assentos() {
                 <main>
                     {poltronas.map((assento) => {
                         const { id, name, isAvailable } = assento;
-                        return <Assento key={id + name} indice={name} id={id} disponivel={isAvailable} />
+                        return (
+                            <Assento
+                                key={id + name}
+                                indice={name}
+                                id={id}
+                                disponivel={isAvailable}
+                                setAssentosEscolhidos={setAssentosEscolhidos} 
+                                assentosEscolhidos={assentosEscolhidos}
+                                />
+                        )
                     })}
                 </main>
                 <section>
@@ -54,12 +81,12 @@ export default function Assentos() {
                 </section>
                 <section className="dados-comprador">
                     <h1>Nome do comprador</h1>
-                    <input placeholder="Digite seu nome..." />
+                    <input className="comprador-nome" placeholder="Digite seu nome..." />
                     <h1>CPF do comprador</h1>
-                    <input placeholder="Digite seu CPF..." />
+                    <input className="comprador-cpf"  placeholder="Digite seu CPF..." />
                 </section>
                 <section className="reservar">
-                    <button >Reservar assento(s)</button>
+                    <button onClick={reservarAssento}>Reservar assento(s)</button>
                 </section>
                 <footer>
                     <div>
