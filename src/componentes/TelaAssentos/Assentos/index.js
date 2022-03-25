@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react"
-import { useParams } from "react-router-dom"
+import { useParams, Link } from "react-router-dom"
 
 import Assento from "../Assento"
 
@@ -8,15 +8,14 @@ import "./style.css"
 
 
 
-export default function Assentos() {
+export default function Assentos({ dados, setDados }) {
 
     const [sessao, setSessao] = useState({})
-    const [assentosEscolhidos, setAssentosEscolhidos] = useState({
+    const [compra, setCompra] = useState({
         ids: [],
-        name:"",
-        cpf:""
+        name: "",
+        cpf: ""
     });
-    console.log(assentosEscolhidos)
 
     const { sessaoId } = useParams();
 
@@ -25,16 +24,53 @@ export default function Assentos() {
             .then((resposta) => {
                 const { data } = resposta
                 setSessao(data)
+                salvarDados(data)
             })
     }, [])
 
+    function salvarDados({ movie, day, name }) {
+        const { title: titulo } = movie;
+        const { date: dia } = day;
+        const novoDados = { ...dados, filme: titulo, dia: dia, hora: name }
+        setDados(novoDados);
+    }
 
-    function reservarAssento(){
-        const nomeComprador = document.querySelector(".comprador-nome").value;
-        const cpfComprador = document.querySelector(".comprador-cpf").value;
-        if(nomeComprador.length < 3) alert ("Insira um nome válido")
-        if(cpfComprador.length !== 11) alert ("Insira um cpf válido com 11 números")
-        setAssentosEscolhidos({...assentosEscolhidos, name:nomeComprador, cpf:cpfComprador});
+
+    function reservarAssento() {
+        const { name, ids, cpf } = compra
+        if (verificarObjeto(compra)) {
+            //fazer o post
+            const requisicao = axios.post("https://mock-api.driven.com.br/api/v5/cineflex/seats/book-many"
+                , compra);
+
+                requisicao.then((sucesso)=>{
+                    setDados({ ...dados, nome: name, cpf: cpf })
+                })
+
+                requisicao.catch((error)=>{
+                    console.log(error.respose);
+                })
+            
+            
+        } else {
+            verificarInputs(name, cpf, ids)
+        }
+
+    }
+
+
+
+    function verificarObjeto(assentos) {
+        const { ids, name, cpf } = assentos
+        return ids.length > 0 && name.length > 1 && cpf.length === 11 ? true : false
+    }
+
+
+
+    function verificarInputs(nome, cpf, ids) {
+        if (cpf.length !== 11) alert("Insira um cpf válido com 11 números")
+        if (nome.length < 3) alert("Insira um nome válido")
+        if (ids.length === 0) alert("Escolha um assento")
     }
 
 
@@ -45,7 +81,7 @@ export default function Assentos() {
         const { name: hora, day: dia, seats: poltronas, movie: filme } = sessao;
         const { title: titulo, posterURL: poster } = filme;
         const { weekday: diaDaSemana } = dia;
-        
+
 
         return (
             <div className="Assentos">
@@ -59,9 +95,11 @@ export default function Assentos() {
                                 indice={name}
                                 id={id}
                                 disponivel={isAvailable}
-                                setAssentosEscolhidos={setAssentosEscolhidos} 
-                                assentosEscolhidos={assentosEscolhidos}
-                                />
+                                setCompra={setCompra}
+                                compra={compra}
+                                dados={dados}
+                                setDados={setDados}
+                            />
                         )
                     })}
                 </main>
@@ -81,12 +119,14 @@ export default function Assentos() {
                 </section>
                 <section className="dados-comprador">
                     <h1>Nome do comprador</h1>
-                    <input className="comprador-nome" placeholder="Digite seu nome..." />
+                    <input className="comprador-nome" placeholder="Digite seu nome..." onChange={input => setCompra({ ...compra, name: input.target.value })} />
                     <h1>CPF do comprador</h1>
-                    <input className="comprador-cpf"  placeholder="Digite seu CPF..." />
+                    <input className="comprador-cpf" placeholder="Digite seu CPF..." onChange={input => setCompra({ ...compra, cpf: input.target.value })} />
                 </section>
                 <section className="reservar">
-                    <button onClick={reservarAssento}>Reservar assento(s)</button>
+                    <Link to={verificarObjeto(compra) ? "/sucesso" : ""}>
+                        <button onClick={reservarAssento}>Reservar assento(s)</button>
+                    </Link>
                 </section>
                 <footer>
                     <div>

@@ -1,0 +1,69 @@
+.Sucesso{
+    margin-top: 67px;
+}
+
+.Sucesso header {
+    width: 100vw;
+    height: 110px;
+
+    font-size: 24px;
+    font-weight: 700;
+    text-align: center;
+    line-height: 28px;
+    color:#247A6B ;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+
+}
+
+.Sucesso main {
+    color: var(--cor-azul-marinho);
+    padding: 20px 28px 0 28px;
+    margin-bottom: 100px;
+}
+
+
+
+.Sucesso main section{
+    margin-bottom: 60px;
+}   
+
+.Sucesso main  h1{
+
+    font-size: 24px;
+    font-weight: 700;
+    margin-bottom: 10px;
+
+}
+
+
+.Sucesso main  p{
+   font-weight: 400;
+   font-size: 22px;
+   margin-bottom: 10px;
+
+
+}
+
+.Sucesso footer{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.Sucesso footer button{
+    width: 225px;
+    height: 42px;
+    border-radius: 3px;
+
+    border: none;
+    outline: none;
+    background-color: var(--cor-laranja);
+
+    font-size: 18px;
+    font-weight: 400;
+    color: #FFFFFF;
+}
