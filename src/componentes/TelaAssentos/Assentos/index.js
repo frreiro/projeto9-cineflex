@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react"
-import { useParams, Link } from "react-router-dom"
+import { useParams, useNavigate } from "react-router-dom"
 
 import Assento from "../Assento"
 
@@ -8,50 +8,51 @@ import "./style.css"
 
 
 
-export default function Assentos({ dados, setDados }) {
-
+export default function Assentos() {
+    
+    const { sessaoId } = useParams();
+    const navigate = useNavigate();
+    
     const [sessao, setSessao] = useState({})
+    const [ingressos, setIngressos] = useState([]);
     const [compra, setCompra] = useState({
         ids: [],
         name: "",
         cpf: ""
     });
+    
 
-    const { sessaoId } = useParams();
 
     useEffect(() => {
         axios.get(`https://mock-api.driven.com.br/api/v5/cineflex/showtimes/${sessaoId}/seats`)
             .then((resposta) => {
                 const { data } = resposta
                 setSessao(data)
-                salvarDados(data)
             })
     }, [])
 
-    function salvarDados({ movie, day, name }) {
-        const { title: titulo } = movie;
-        const { date: dia } = day;
-        const novoDados = { ...dados, filme: titulo, dia: dia, hora: name }
-        setDados(novoDados);
-    }
-
 
     function reservarAssento() {
-        const { name, ids, cpf } = compra
+        const { name, cpf, ids } = compra
+        const {movie, day, name: hora} = sessao;
+        const {title:titulo } = movie;
+        const {date: dia} = day;
+
         if (verificarObjeto(compra)) {
-            //fazer o post
             const requisicao = axios.post("https://mock-api.driven.com.br/api/v5/cineflex/seats/book-many"
                 , compra);
 
-                requisicao.then((sucesso)=>{
-                    setDados({ ...dados, nome: name, cpf: cpf })
+            requisicao.then((sucesso) => {
+                navigate("/sucesso", {state: 
+                    {...compra, filme: titulo, dia: dia, hora:hora, ingressos: ingressos}
                 })
+            })
 
-                requisicao.catch((error)=>{
-                    console.log(error.respose);
-                })
-            
-            
+            requisicao.catch((error) => {
+                console.log(error.respose);
+            })
+
+
         } else {
             verificarInputs(name, cpf, ids)
         }
@@ -97,8 +98,8 @@ export default function Assentos({ dados, setDados }) {
                                 disponivel={isAvailable}
                                 setCompra={setCompra}
                                 compra={compra}
-                                dados={dados}
-                                setDados={setDados}
+                                ingressos={ingressos}
+                                setIngressos={setIngressos}
                             />
                         )
                     })}
@@ -119,14 +120,20 @@ export default function Assentos({ dados, setDados }) {
                 </section>
                 <section className="dados-comprador">
                     <h1>Nome do comprador</h1>
-                    <input className="comprador-nome" placeholder="Digite seu nome..." onChange={input => setCompra({ ...compra, name: input.target.value })} />
+                    <input className="comprador-nome"
+                        placeholder="Digite seu nome..."
+                        type="text"
+                        onChange={input => setCompra({ ...compra, name: input.target.value })}
+                        value={compra.nome} />
                     <h1>CPF do comprador</h1>
-                    <input className="comprador-cpf" placeholder="Digite seu CPF..." onChange={input => setCompra({ ...compra, cpf: input.target.value })} />
+                    <input className="comprador-cpf"
+                        placeholder="Digite seu CPF..."
+                        type="number"
+                        onChange={input => setCompra({ ...compra, cpf: input.target.value })}
+                        value={compra.cpf} />
                 </section>
                 <section className="reservar">
-                    <Link to={verificarObjeto(compra) ? "/sucesso" : ""}>
-                        <button onClick={reservarAssento}>Reservar assento(s)</button>
-                    </Link>
+                    <button onClick={reservarAssento}>Reservar assento(s)</button>
                 </section>
                 <footer>
                     <div>

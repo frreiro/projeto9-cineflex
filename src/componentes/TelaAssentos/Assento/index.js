@@ -1,13 +1,12 @@
 import React from "react"
 import "./style.css"
 
-export default function Assento({ indice, id, disponivel, setCompra, compra, dados, setDados }) {
+export default function Assento({ indice, id, disponivel, setCompra, compra, ingressos, setIngressos }) {
     const [selecionado, setSelecionado] = React.useState(false)
 
 
     function selecionarAssento() {
         const {ids} = compra;
-        const {ingressos} = dados;
         setSelecionado(!selecionado)
         if (!selecionado) {
             const colocarId = addNoArrayDeAssentos(ids, id);
@@ -15,21 +14,19 @@ export default function Assento({ indice, id, disponivel, setCompra, compra, dad
             setCompra(novoAssentos)
 
             const colocarNome = addNoArrayDeAssentos(ingressos, indice);
-            const novoDados = {...dados, ingressos: colocarNome};
-            setDados(novoDados);
+            setIngressos(colocarNome);
         } else {
             const deletarId = removerNoArrayDeAssentos(ids, id);
             const novoObjeto = { ...compra, ids: deletarId};
             setCompra(novoObjeto)
 
             const removerNome = removerNoArrayDeAssentos(ingressos, indice);
-            const novoDados = {...dados, ingressos: removerNome};
-            setDados(novoDados);
+            setIngressos(removerNome);
         }
     }
 
-    function addNoArrayDeAssentos(propObjeto, novoItem) {
-        const colocarNoArray = [...propObjeto, novoItem];
+    function addNoArrayDeAssentos(array, novoItem) {
+        const colocarNoArray = [...array, novoItem];
         return colocarNoArray;
     }
 

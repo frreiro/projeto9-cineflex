@@ -1,10 +1,14 @@
-import { Link } from "react-router-dom"
+import { Link, useLocation  } from "react-router-dom"
 import "./style.css"
 
-export default function Sucesso({ dados }) {
-    const { cpf, nome, ingressos, filme, dia, hora } = dados
-    console.log(dados);
+export default function Sucesso() {
 
+    const {state} = useLocation()
+
+
+    const { cpf, name, ingressos, filme, dia, hora } = state
+
+    
 
     function formatarCpf(cpf) {
         const ultimos = cpf.slice(cpf.length - 2);
@@ -31,7 +35,7 @@ export default function Sucesso({ dados }) {
             </section>
             <section >
                 <h1>Comprador</h1>
-                <p>Nome: {nome}</p>
+                <p>Nome: {name}</p>
                 <p>CPF: {formatarCpf(cpf)}</p>
             </section>
         </main>
@@ -49,7 +53,7 @@ export default function Sucesso({ dados }) {
 
 
 
-    return nome.length > 0 && cpf.length > 0 && ingressos.length > 0 ? telaSucesso : carregando
+    return name.length > 0 && cpf.length > 0 && ingressos.length > 0 ? telaSucesso : carregando
 
 
 
