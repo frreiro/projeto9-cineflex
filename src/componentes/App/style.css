@@ -19,3 +19,12 @@
     color: var(--cor-laranja); 
 }
 
+.App div{
+    position: absolute;
+    left: 30px;
+    color: var(--cor-laranja);
+}
+
+.App ion-icon{
+    font-size: 25px;
+}
